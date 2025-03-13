@@ -1,7 +1,8 @@
-'use client'
+"use client"
 
+import { useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Brain, Code, Cpu, Layers, LogIn, MessageSquare } from "lucide-react"
+import { ArrowRight, Brain, Code, Cpu, Layers, LogIn, Menu, MessageSquare, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ProjectCard from "@/components/project-card"
 import CapabilityCard from "@/components/capability-card"
@@ -9,6 +10,8 @@ import ContactForm from "@/components/contact-form"
 import SignInCTA from "@/components/sign-in-cta"
 
 export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
@@ -62,6 +65,8 @@ export default function Home() {
             </svg>
             <span className="text-xl font-bold">QED42 AI Labs</span>
           </div>
+
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
             <Link href="#demos" className="text-sm font-medium hover:text-qed-red">
               Demos
@@ -76,12 +81,64 @@ export default function Home() {
               Contact
             </Link>
           </nav>
+
+          {/* Desktop Sign In Button */}
           <Button asChild size="sm" className="hidden md:flex bg-qed-red hover:bg-qed-red/90">
             <Link href="#sign-in">
               <LogIn className="mr-2 h-4 w-4" /> Sign In
             </Link>
           </Button>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 text-qed-gray hover:text-qed-red focus:outline-none"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b shadow-lg z-50 animate-in slide-in-from-top duration-300">
+            <div className="container py-4 px-4 flex flex-col space-y-4">
+              <Link
+                href="#demos"
+                className="text-sm font-medium py-2 hover:text-qed-red"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Demos
+              </Link>
+              <Link
+                href="#capabilities"
+                className="text-sm font-medium py-2 hover:text-qed-red"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Capabilities
+              </Link>
+              <Link
+                href="#about"
+                className="text-sm font-medium py-2 hover:text-qed-red"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="#contact"
+                className="text-sm font-medium py-2 hover:text-qed-red"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <Button asChild size="sm" className="w-full bg-qed-red hover:bg-qed-red/90 mt-2">
+                <Link href="#sign-in" onClick={() => setMobileMenuOpen(false)}>
+                  <LogIn className="mr-2 h-4 w-4" /> Sign In
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="flex-1">
